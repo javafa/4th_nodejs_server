@@ -12,7 +12,10 @@ var http = require("http");
 var server = http.createServer( function(request, response){
 
 	// 1 요청이 온 주소체계가 내가 제공하는 api 구조와 일치하는지 확인
-	var cmds = request.url.split("/");
+	// decodeURI(주소) -> %20 등의 주소문자를 원래 문자로 변환
+	// encodeURI(문자) -> 주소로 사용할 수 있는 문자열로 변환
+
+	var cmds = decodeURI(request.url).split("/");
 	response.writeHead(200, {'Content-Type':'text/html'});
 	// 2. 주소 체계가 잘못 되었다면 알려준다
 	if(cmds.length < 3){
