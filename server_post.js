@@ -11,8 +11,9 @@ var server = http.createServer(function(request,response){
 	var url = u.parse(request.url);
 	// method 를 꺼낸다
 	// 주소에서 명령어=서버자원의id(uri) 를 먼저 꺼낸다
-	var cmd = url.pathname;
-	if(cmd == "/getfile"){
+	var path = url.pathname;
+	var cmds = path.split("/");
+	if(cmds[1] == "getfile"){
 		if(request.method == 'POST'){
 			// .. body에 넘어온 filepath
 		}else if(request.method == "GET"){
@@ -35,8 +36,20 @@ var server = http.createServer(function(request,response){
 			response.writeHead(500,{'Content-Type':'text/html'});
 			response.end("error : method="+request.method);
 		}
-	}else{
-
+	}else if(cmds[1] == "html"){
+		filepath = path.substring(1);
+		fs.readFile(filepath, 'utf-8',function(error, data){
+			if(error){
+				response.writeHead(404,{'Content-Type':'text/html'});
+				response.end("<h1>404 Page not found!</h1>");
+			}else{
+				response.writeHead(200,{'Content-Type':'text/html'});
+				response.end(data);
+			}
+		});
+	}else {
+		response.writeHead(404,{'Content-Type':'text/html'});
+		response.end("<h1>404 Page not found!</h1>");
 	}
 
 	
