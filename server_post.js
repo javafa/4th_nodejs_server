@@ -63,16 +63,16 @@ var server = http.createServer(function(request,response){
 			console.log(url);
 			console.log(sign);
 			if(sign.id == id && sign.pw == pw){
-				response.writeHead(404,{'Content-Type':'text/html'});
-				response.end("<h1>Welcome!</h1>");
+				response.writeHead(200,{'Content-Type':'text/html'});
+				response.end("OK");
 			}else{
-				response.writeHead(404,{'Content-Type':'text/html'});
-				response.end("<h1>ID or PW not found!</h1>");
+				response.writeHead(200,{'Content-Type':'text/html'});
+				response.end("FAIL");
 			}
 		});
 	}else {
 		response.writeHead(404,{'Content-Type':'text/html'});
-		response.end("<h1>404 Page not found!</h1>");
+		response.end("404 Page not found!");
 	}
 });
 
